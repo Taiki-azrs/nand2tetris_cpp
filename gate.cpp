@@ -1,6 +1,7 @@
 #include<iostream>
 #include<cstdio>
 #include<tuple>
+#include"word.hpp"
 namespace gate{
   bool _nand(bool a,bool b){
     return !(a && b);
@@ -26,5 +27,33 @@ namespace gate{
     bool a=_and(_not(sel),in);
     bool b=_and(sel,in);
     return std::forward_as_tuple(a,b);
+  }
+  word _and16(word a,word b){
+    word out;
+    for(int i=0;i<WORD_SIZE;i++){
+      out.set(i,_and(a.get(i),b.get(i)));
+    }
+    return out;
+  }
+  word _or16(word a,word b){
+    word out;
+    for(int i=0;i<WORD_SIZE;i++){
+      out.set(i,_or(a.get(i),b.get(i)));
+    }
+    return out;
+  }
+  word _not16(word a){
+    word out;
+    for(int i=0;i<WORD_SIZE;i++){
+      out.set(i,_not(a.get(i)));
+    }
+    return out;
+  }
+  word _mux16(word a,word b,bool sel){
+    word out;
+    for(int i=0;i<WORD_SIZE;i++){
+      out.set(i,_mux(a.get(i),b.get(i),sel));
+    }
+    return out;
   }
 }

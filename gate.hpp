@@ -7,4 +7,8 @@ namespace gate{
   bool _xor(bool a,bool b);
   bool _mux(bool a,bool b,bool sel);
   std::tuple<bool,bool> _dmux(bool in,bool sel);
+  word _and16(word a,word b);
+  word _or16(word a,word b);
+  word _not16(word a);
+  word _mux16(word a,word b,bool sel);
 }
