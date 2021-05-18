@@ -1,0 +1,2 @@
+test_gate.o: test_gate.cpp word.hpp gate.hpp
+test_adder.o: test_adder.cpp word.hpp gate.hpp adder.hpp

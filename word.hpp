@@ -2,7 +2,7 @@
 #define WORD_SIZE 16
 class word{
 private:
-  bool word[WORD_SIZE];
+  bool word[WORD_SIZE] = {};
 public:
   void set(int i,bool n);
   bool get(int i);
@@ -18,7 +18,7 @@ inline bool word::get(int i){
 }
 
 inline void word::print(){
-  for(int i=0;i<WORD_SIZE;i++){
+  for(int i=WORD_SIZE-1;i>=0;i--){
     std::cout<<word[i];
   }
   std::cout<<"\n";
