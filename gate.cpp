@@ -42,6 +42,13 @@ namespace gate{
     }
     return out;
   }
+  word _xor16(word a,word b){
+    word out;
+    for(int i=0;i<WORD_SIZE;i++){
+      out.set(i,_xor(a.get(i),b.get(i)));
+    }
+    return out;
+  }
   word _not16(word a){
     word out;
     for(int i=0;i<WORD_SIZE;i++){
@@ -53,6 +60,13 @@ namespace gate{
     word out;
     for(int i=0;i<WORD_SIZE;i++){
       out.set(i,_mux(a.get(i),b.get(i),sel));
+    }
+    return out;
+  }
+  bool _or16way(word a){
+    bool out=0;
+    for(int i=0;i<WORD_SIZE;i++){
+      out=_or(a.get(i),out);
     }
     return out;
   }

@@ -54,10 +54,21 @@ void test_inc16(){
   std::cout<<"1"<<std::endl;
   c.print();
 }
+void test_alu(){
+  word x,y;
+  x.set_word(0b0000000000000000);
+  y.set_word(0b1111111111111111);
+  bool zx=0,nx=1,zy=0,ny=1,f=0,no=1;
+  auto out=adder::alu(x,y,zx,nx,zy,ny,f,no);
+  std::get<0>(out).print();
+  std::cout<<std::get<1>(out)<<","<<std::get<2>(out)<<std::endl;
+}
+			       
 int main(){
-  test_half_adder();
-  test_full_adder();
-  test_add16();
-  test_inc16();
+  // test_half_adder();
+  // test_full_adder();
+  // test_add16();
+  // test_inc16();
+  test_alu();
   return 0;
 }
