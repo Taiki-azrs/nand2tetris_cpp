@@ -26,3 +26,9 @@ bool bit::run(bool in,bool load,bool clk){
   return out;  
 }
 
+word reg::run(word in,bool load,bool clk){
+  for(int i=0;i<WORD_SIZE;i++){
+    out.set(i,w[i].run(in.get(i),load,clk));
+  }
+  return out;
+}

@@ -15,3 +15,10 @@ public:
   bool run(bool in,bool load,bool clk);
 };
 
+class reg{
+private:
+  bit w[16];
+  word out;
+public:
+  word run(word in,bool load,bool clk);
+};

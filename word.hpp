@@ -8,7 +8,8 @@ public:
   bool get(int i);
   void print();
   void broadcast(bool n);
-  void set_word(int n);
+  void set_word(int16_t n);
+  int16_t get_word();
 };
 
 
@@ -33,9 +34,16 @@ inline void word::print(){
 }
 
 
-inline void word::set_word(int n){
+inline void word::set_word(int16_t n){
   for(int i=0;i<WORD_SIZE;i++){
     word[i]=((n>>i)&0b1);
   }
+}
+inline int16_t word::get_word(){
+  int16_t out=0;
+  for(int i=0;i<WORD_SIZE;i++){
+    out=(word[i]<<i)|out;
+  }
+  return out;
 }
 

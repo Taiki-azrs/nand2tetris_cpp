@@ -1,2 +1,3 @@
-test_gate.o: test_gate.cpp word.hpp gate.hpp
 test_adder.o: test_adder.cpp word.hpp gate.hpp adder.hpp
+test_gate.o: test_gate.cpp word.hpp gate.hpp
+test_sequential.o: test_sequential.cpp word.hpp gate.hpp sequential.hpp
