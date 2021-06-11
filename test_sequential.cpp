@@ -25,11 +25,14 @@ int test_reg(){
   word in;
   word load;
   reg test;
-  auto inp=input_cmp((char*)"Register.cmp",3);
+  auto inp=input_cmp((char*)"cmp/Register.cmp",3);
+  if(inp[0][0]==-1){
+    std::cout<< "ファイルが開けませんでした"<<std::endl;
+    return -1;
+  }
   for(auto x:inp){
     in.set_word(x[0]);
     word ans = test.run(in,(bool)x[1],clk);
-    //std::cout<<std::setw(10)<<x[0]<<","<<x[1]<<","<<ans.get_word()<<std::endl;
     if(ans.get_word()!=x[2])return -1;
     clk=gate::_not(clk);
   }
@@ -39,9 +42,8 @@ int test_reg(){
 
 int main(){
   if(test_reg()==-1){
-    std::cout<<"error"<<std::endl;
-  }else{
-    std::cout<<"OK"<<std::endl;
+    std::cout<<"error test_reg"<<std::endl;
+    return -1;
   }
   return 0;
 }

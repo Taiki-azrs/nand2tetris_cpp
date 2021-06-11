@@ -26,8 +26,8 @@ std::vector<std::vector<int>> input_cmp(char* filename,int inum)
 {
   std::ifstream ifs(filename);
   if(!ifs){
-    std::cout<< "ファイルが開けませんでした"<<std::endl;
-    exit;
+    std::vector<std::vector<int>> err(1,std::vector<int>(1,-1));
+    return err;
   }
   std::vector<std::vector<int>> out;
   std::string data;
