@@ -22,11 +22,12 @@ std::vector<std::string> split(std::string str, char del) {
  
   return result;
 }
-std::vector<std::vector<int>> input_cmp(char* filename,int inum)
+std::vector<std::vector<int>> input_cmp(char* filename)
 {
   std::ifstream ifs(filename);
   if(!ifs){
     std::vector<std::vector<int>> err(1,std::vector<int>(1,-1));
+    std::cout<< "ファイルが開けませんでした"<<std::endl;
     return err;
   }
   std::vector<std::vector<int>> out;
@@ -35,11 +36,19 @@ std::vector<std::vector<int>> input_cmp(char* filename,int inum)
   int i=0;
   while(!ifs.eof()){
     std::getline(ifs,data);
+    if(data.empty())break;
     std::vector<std::string>wd=split(data,'|');
     std::vector<int> tmp;
-    for(int j=0;j<inum;j++){
-      tmp.push_back(std::stoi(wd[j+2]));
+    for(int j=0;j<wd.size();j++){
+      try{
+	tmp.push_back(std::stoi(wd[j]));
+      }
+      catch(const std::invalid_argument& e){
+      }
+
     }
+    //for(int i=0;i<tmp.size();i++){std::cout<<tmp[i]<<std::endl;} //dump tmp
+
     out.push_back(tmp);
   }
   return out;

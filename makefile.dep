@@ -1,3 +1,8 @@
+adder.o: adder.cpp word.hpp gate.hpp
+gate.o: gate.cpp word.hpp
+input_cmp.o: input_cmp.cpp
+sequential.o: sequential.cpp word.hpp gate.hpp sequential.hpp
 test_adder.o: test_adder.cpp word.hpp gate.hpp adder.hpp
-test_gate.o: test_gate.cpp word.hpp gate.hpp
-test_sequential.o: test_sequential.cpp word.hpp gate.hpp sequential.hpp
+test_gate.o: test_gate.cpp word.hpp gate.hpp input_cmp.hpp
+test_sequential.o: test_sequential.cpp word.hpp gate.hpp sequential.hpp \
+ input_cmp.hpp
