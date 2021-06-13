@@ -32,3 +32,8 @@ word reg::run(word in,bool load,bool clk){
   }
   return out;
 }
+/*
+word RAM8::run(word in,int16_t address,bool load,word out,bool clk){
+  
+}
+*/

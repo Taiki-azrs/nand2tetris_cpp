@@ -22,3 +22,12 @@ private:
 public:
   word run(word in,bool load,bool clk);
 };
+/*
+class RAM8{
+private:
+  reg n[8];
+  word out;
+public:
+  word run(word in,int16_t address,bool load,word out,bool clk);
+}
+*/

@@ -14,7 +14,6 @@ int test_reg(){
   reg test;
   auto inp=input_cmp((char*)"cmp/Register.cmp");
   if(inp[0][0]==-1){
-    std::cout<< "ファイルが開けませんでした"<<std::endl;
     return -1;
   }
   for(auto x:inp){
