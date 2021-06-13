@@ -56,36 +56,54 @@ int test_add16(){
   }
   return 0;  
 }
-/*
+
 int test_inc16(){
-  std::cout << "===inc16===" << std::endl;
-  word a;
-  for(int i=0;i<WORD_SIZE;i++){
-    a.set(i,i%2);
+  auto inp=input_cmp((char*)"cmp/Inc16.cmp",2);
+  if(inp[0][0]==-1){
+    return -1;
   }
-  word c=adder::inc16(a);
-  a.print();
-  std::cout <<"+"<<std::endl;
-  std::cout<<"1"<<std::endl;
-  c.print();
+  word in;
+  for(auto x:inp){
+    in.set_word(x[0]);
+    auto ans = adder::inc16(in);
+    #ifdef DEBUG
+    std::cout <<"inc16("<<std::bitset<16>(x[0])<<")= ("
+	      <<std::bitset<16>(ans.get_word())<<")"<<std::endl;
+    #endif
+    if(ans.get_word()!=(int16_t)x[1])return -1;
+  }
+  return 0;  
 }
 int test_alu(){
   word x,y;
-  x.set_word(0b0000000000000000);
-  y.set_word(0b1111111111111111);
-  bool zx=0,nx=1,zy=0,ny=1,f=0,no=1;
-  auto out=adder::alu(x,y,zx,nx,zy,ny,f,no);
-  std::get<0>(out).print();
-  std::cout<<std::get<1>(out)<<","<<std::get<2>(out)<<std::endl;
-}
-*/			       
+  bool zx,nx,zy,ny,f,no;
+  auto inp=input_cmp((char*)"cmp/ALU.cmp",2);
+  if(inp[0][0]==-1){
+    return -1;
+  }
+  word in;
+  for(auto i:inp){
+    x.set_word(i[0]);
+    y.set_word(i[1]);
+    zx=i[2];nx=i[3];zy=i[4];ny=i[5];f=i[6];no=i[7];
+    auto ans=adder::alu(x,y,zx,nx,zy,ny,f,no);
+    auto out=std::get<0>(ans);
+    bool zr=std::get<1>(ans);
+    bool ng=std::get<2>(ans);
+    #ifdef DEBUG
+    std::cout<<std::bitset<16>(x.get_word())<<","<<std::bitset<16>(y.get_word())<<",";
+    std::cout<<zx<<","<<nx<<","<<zy<<","<<ny<<","<<f<<","<<no<<",";
+    std::cout<<std::bitset<16>(out.get_word())<<","<<zr<<","<<ng<<std::endl;
+    #endif
+    if(out.get_word()!=(int16_t)i[8] || zr!=i[9] || ng!=i[10])return -1;
+  }
+  return 0;
+}			       
 int main(){
   if(test_half_adder()==-1)return -1;
   if(test_full_adder()==-1)return -1;
   if(test_add16()==-1)return -1;
-  // test_full_adder();
-  // test_add16();
-  // test_inc16();
-  //test_alu();
+  if(test_inc16()==-1)return -1;
+  if(test_alu()==-1)return -1;
   return 0;
 }
