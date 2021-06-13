@@ -8,4 +8,5 @@ test_func(){
     fi
 }
 test_func test_gate
+test_func test_adder
 test_func test_sequential

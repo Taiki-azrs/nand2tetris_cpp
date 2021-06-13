@@ -7,24 +7,24 @@ namespace adder{
   std::tuple<bool,bool>half_adder(bool a,bool b){
     bool sum=gate::_xor(a,b);
     bool carry=gate::_and(a,b);
-    return std::forward_as_tuple(carry,sum);
+    return std::forward_as_tuple(sum,carry);
   }
   std::tuple<bool,bool>full_adder(bool a,bool b,bool c){
     auto tmp=half_adder(b,c);
-    auto tmp2=half_adder(a,std::get<1>(tmp));
-    bool sum = std::get<1>(tmp2);
-    bool carry = gate::_or(std::get<0>(tmp),std::get<0>(tmp2));
-    return std::forward_as_tuple(carry,sum);
+    auto tmp2=half_adder(a,std::get<0>(tmp));
+    bool sum = std::get<0>(tmp2);
+    bool carry = gate::_or(std::get<1>(tmp),std::get<1>(tmp2));
+    return std::forward_as_tuple(sum,carry);
   }
   word add16(word a,word b){
     word c;
     auto tmp=half_adder(a.get(0),b.get(0)); //0ビット目は半加算
-    c.set(0,std::get<1>(tmp));
-    bool carry=std::get<0>(tmp);
+    c.set(0,std::get<0>(tmp));
+    bool carry=std::get<1>(tmp);
     for(int i=1;i<WORD_SIZE;i++){
       tmp=full_adder(carry,a.get(i),b.get(i));
-      c.set(i,std::get<1>(tmp));
-      carry=std::get<0>(tmp);
+      c.set(i,std::get<0>(tmp));
+      carry=std::get<1>(tmp);
     }
     return c;
   }

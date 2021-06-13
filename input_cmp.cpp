@@ -22,7 +22,7 @@ std::vector<std::string> split(std::string str, char del) {
  
   return result;
 }
-std::vector<std::vector<int>> input_cmp(char* filename)
+std::vector<std::vector<int>> input_cmp(char* filename,int radix=10)
 {
   std::ifstream ifs(filename);
   if(!ifs){
@@ -41,7 +41,7 @@ std::vector<std::vector<int>> input_cmp(char* filename)
     std::vector<int> tmp;
     for(int j=0;j<wd.size();j++){
       try{
-	tmp.push_back(std::stoi(wd[j]));
+	tmp.push_back(std::stoi(wd[j],0,radix));
       }
       catch(const std::invalid_argument& e){
       }

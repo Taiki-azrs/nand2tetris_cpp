@@ -1,6 +1,7 @@
 #include<iostream>
 #include<cstdio>
 #include<tuple>
+#include<bitset>
 #include"word.hpp"
 #include"gate.hpp"
 #include"input_cmp.hpp"
@@ -16,6 +17,7 @@ int test_not(){
   }
   return 0;
 }
+
 int test_and(){
   auto inp=input_cmp((char*)"cmp/And.cmp");
   if(inp[0][0]==-1){
@@ -23,11 +25,14 @@ int test_and(){
   }
   for(auto x:inp){    
     bool ans = gate::_and((bool)x[0],(bool)x[1]);
-    //std::cout<<"and("<<x[0]<<","<<x[1]<<")="<<ans<<std::endl;
+#ifdef DEBUG
+    std::cout<<"and("<<x[0]<<","<<x[1]<<")="<<ans<<std::endl;
+#endif
     if(ans!=(bool)x[2])return -1;
   }
   return 0;
 }
+
 int test_or(){
   auto inp=input_cmp((char*)"cmp/Or.cmp");
   if(inp[0][0]==-1){
@@ -35,11 +40,14 @@ int test_or(){
   }
   for(auto x:inp){    
     bool ans = gate::_or((bool)x[0],(bool)x[1]);
-    //std::cout<<"or("<<x[0]<<","<<x[1]<<")="<<ans<<std::endl;
+#ifdef DEBUG
+    std::cout<<"or("<<x[0]<<","<<x[1]<<")="<<ans<<std::endl;
+#endif
     if(ans!=(bool)x[2])return -1;
   }
   return 0;
 }
+
 int test_xor(){
   auto inp=input_cmp((char*)"cmp/Xor.cmp");
   if(inp[0][0]==-1){
@@ -47,11 +55,14 @@ int test_xor(){
   }
   for(auto x:inp){    
     bool ans = gate::_xor((bool)x[0],(bool)x[1]);
-    //std::cout<<"xor("<<x[0]<<","<<x[1]<<")="<<ans<<std::endl;
+#ifdef DEBUG
+    std::cout<<"xor("<<x[0]<<","<<x[1]<<")="<<ans<<std::endl;
+#endif
     if(ans!=(bool)x[2])return -1;
   }
   return 0;
 }
+
 int test_mux(){
   auto inp=input_cmp((char*)"cmp/Mux.cmp");
   if(inp[0][0]==-1){
@@ -59,12 +70,15 @@ int test_mux(){
   }
   for(auto x:inp){    
     bool ans = gate::_mux((bool)x[0],(bool)x[1],(bool)x[2]);
-    //std::cout <<"mux("<<x[0]<<","<<x[1]<<","<<x[2]<<")=" << ans<<std::endl;
+#ifdef DEBUG
+    std::cout <<"mux("<<x[0]<<","<<x[1]<<","<<x[2]<<")=" << ans<<std::endl;
+#endif
     if(ans!=(bool)x[3])return -1;
     
   }
   return 0;
 }
+
 int test_dmux(){
   auto inp=input_cmp((char*)"cmp/DMux.cmp");
   if(inp[0][0]==-1){
@@ -72,82 +86,88 @@ int test_dmux(){
   }
   for(auto x:inp){    
     auto ans = gate::_dmux((bool)x[0],(bool)x[1]);
+#ifdef DEBUG
     std::cout << "dmux("<<x[0]<<","<<x[1]<<")="<<std::get<0>(ans) <<","<<std::get<1>(ans)<<std::endl;
+#endif
     if(std::get<0>(ans)!=(bool)x[2] || std::get<1>(ans)!=(bool)x[3])return -1;
   }
   return 0;
 }
-void test_and16(){
-  std::cout << "===and16===" << std::endl;
-  word a;
-  word b;
-  for(int i=0;i<WORD_SIZE;i++){
-    a.set(i,i%2);
-    if(i<8){
-      b.set(i,1);
-    }else{
-      b.set(i,0);
-    }
+
+int test_and16(){
+  word a,b;
+  auto inp=input_cmp((char*)"cmp/And16.cmp",2);
+  if(inp[0][0]==-1){
+    return -1;
   }
-  word c=gate::_and16(a,b);
-  a.print();
-  std::cout << "and"<<std::endl;
-  b.print();
-  std::cout<<""<<std::endl;
-  c.print();
+  for(auto x:inp){
+    a.set_word(x[0]);
+    b.set_word(x[1]);
+    auto out=gate::_and16(a,b);
+    if(out.get_word()!=(int16_t)x[2])return -1;
+    #ifdef DEBUG
+    std::cout<<"and16:"<<std::bitset<16>(x[0])<<","<<std::bitset<16>(x[1])<<"="
+	     <<std::bitset<16>(out.get_word())<<std::endl;
+    #endif
+  }
+  return 0;
 }
-void test_or16(){
-  std::cout << "===or16===" << std::endl;
-  word a;
-  word b;
-  for(int i=0;i<WORD_SIZE;i++){
-    a.set(i,i%2);
-    if(i<8){
-      b.set(i,1);
-    }else{
-      b.set(i,0);
-    }
+
+int test_or16(){
+  word a,b;
+  auto inp=input_cmp((char*)"cmp/Or16.cmp",2);
+  if(inp[0][0]==-1){
+    return -1;
   }
-  word c=gate::_or16(a,b);
-  a.print();
-  std::cout << "or"<<std::endl;
-  b.print();
-  std::cout<<""<<std::endl;
-  c.print();
+  for(auto x:inp){
+    a.set_word(x[0]);
+    b.set_word(x[1]);
+    auto out=gate::_or16(a,b);
+    if(out.get_word()!=(int16_t)x[2])return -1;
+    #ifdef DEBUG
+    std::cout<<"or16:"<<std::bitset<16>(x[0])<<","<<std::bitset<16>(x[1])<<"="
+	     <<std::bitset<16>(out.get_word())<<std::endl;
+    #endif
+  }
+  return 0;
 }
-void test_not16(){
-  std::cout << "===not16===" << std::endl;
-  word a;
-  for(int i=0;i<WORD_SIZE;i++){
-    a.set(i,i%2);
+
+int test_not16(){
+  word a,out;
+  auto inp=input_cmp((char*)"cmp/Not16.cmp",2);
+  if(inp[0][0]==-1){
+    return -1;
   }
-  word c=gate::_not16(a);
-  std::cout << "not"<<std::endl;
-  a.print();
-  std::cout<<""<<std::endl;
-  c.print();
+  for(auto x:inp){
+    a.set_word(x[0]);
+    auto out=gate::_not16(a);
+    if(out.get_word()!=(int16_t)x[1])return -1;
+    #ifdef DEBUG
+    std::cout<<"not16:"<<std::bitset<16>(x[0])<<"="<<std::bitset<16>(out.get_word())<<std::endl;
+    #endif
+  }
+  return 0;
 }
-void test_mux16(){
-  std::cout << "===mux16===" << std::endl;
-  word a;
-  word b;
-  for(int i=0;i<WORD_SIZE;i++){
-    a.set(i,i%2);
-    if(i<8){
-      b.set(i,1);
-    }else{
-      b.set(i,0);
-    }
+
+int test_mux16(){
+  word a,b;
+  bool sel;
+  auto inp=input_cmp((char*)"cmp/Mux16.cmp",2);
+  if(inp[0][0]==-1){
+    return -1;
   }
-  word c=gate::_mux16(a,b,0);
-  a.print();
-  std::cout << "or"<<std::endl;
-  b.print();
-  std::cout<<"sel=0"<<std::endl;
-  c.print();
-  c=gate::_mux16(a,b,1);
-  std::cout<<"sel=1"<<std::endl;
-  c.print();
+  for(auto x:inp){
+    a.set_word(x[0]);
+    b.set_word(x[1]);
+    sel=x[2];
+    auto out=gate::_mux16(a,b,sel);
+    if(out.get_word()!=(int16_t)x[3])return -1;
+    #ifdef DEBUG
+    std::cout<<"mux16:"<<std::bitset<16>(x[0])<<","<<std::bitset<16>(x[1])<<","<<std::bitset<1>(x[2])
+	     <<"="<<std::bitset<16>(out.get_word())<<std::endl;
+    #endif
+  }
+  return 0;
 }
 
 int main(){
@@ -156,10 +176,10 @@ int main(){
   if(test_or()==-1)return -1;
   if(test_xor()==-1)return -1;
   if(test_mux()==-1)return -1;
-  if(test_dmux()==-1)return -1;  
-  // test_and16();
-  // test_or16();
-  // test_not16();
-  // test_mux16();
+  if(test_dmux()==-1)return -1;
+  if(test_and16()==-1)return -1;
+  if(test_or16()==-1)return -1;
+  if(test_not16()==-1)return -1;
+  if(test_mux16()==-1)return -1;
   return 0;
 }
