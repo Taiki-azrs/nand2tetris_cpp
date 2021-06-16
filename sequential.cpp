@@ -32,8 +32,13 @@ word reg::run(word in,bool load,bool clk){
   }
   return out;
 }
-/*
-word RAM8::run(word in,int16_t address,bool load,word out,bool clk){
-  
+word RAM8::run(word in,bool load,int16_t address,bool clk){
+  auto sel_mem=gate::_dmux8way(load,address);
+  word tmp[8];
+  for(int i=0;i<8;i++){
+    tmp[i]=ram[i].run(in,sel_mem[i],clk);
+    }
+  out = gate::_mux8way16(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4],tmp[5],tmp[6],tmp[7],address);
+  return out;
 }
-*/
+

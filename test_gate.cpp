@@ -13,6 +13,9 @@ int test_not(){
 
   for(auto x:inp){    
     bool ans = gate::_not((bool)x[0]);
+#ifdef DEBUG
+    std::cout<<"not("<<x[0]<<")="<<ans<<std::endl;
+#endif
     if(ans!=(bool)x[1])return -1;
   }
   return 0;
