@@ -125,6 +125,25 @@ int test_RAM16K(){
   }
   return 0;  
 }
+int test_PC(){
+  word in;
+  word load;
+  PC test;
+  auto inp=input_cmp((char*)"cmp/PC.cmp",10,1);
+  if(inp[0][0]==-1){
+    return -1;
+  }
+  for(auto x:inp){
+    in.set_word((int16_t)x[1]);
+    word ans = test.run(in,(bool)x[2],x[3],x[4],x[0]);
+    #ifdef DEBUG
+    std::cout<<in.get_word()<<","<<x[2]<<","<<x[3]<<","<<x[4]<<"="
+	     <<ans.get_word()<<std::endl;
+    #endif
+    if(ans.get_word()!=(int16_t)x[5])return -1;
+  }
+  return 0;  
+}
 
 int main(){
   if(test_reg()==-1)return -1;
@@ -133,6 +152,7 @@ int main(){
   if(test_RAM512()==-1)return -1;
   if(test_RAM4K()==-1)return -1;
   if(test_RAM16K()==-1)return -1;
+  if(test_PC()==-1)return -1;
   
   return 0;
 }

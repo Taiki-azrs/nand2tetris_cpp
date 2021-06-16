@@ -7,7 +7,7 @@ test_gate: test_gate.o gate.o input_cmp.o
 	$(CXX)   $^  -o $@
 test_adder: test_adder.o adder.o gate.o input_cmp.o
 	$(CXX) $^  -o $@
-test_sequential: test_sequential.o sequential.o gate.o input_cmp.o
+test_sequential: test_sequential.o sequential.o gate.o input_cmp.o adder.o
 	$(CXX) $^ -DDEBUG  -o $@
 %.o: %.cpp
 	$(CXX) $(ENABLE_DEBUG) -c $<

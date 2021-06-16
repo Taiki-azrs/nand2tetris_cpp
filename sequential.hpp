@@ -58,3 +58,9 @@ private:
 public:
   word run(word in,bool load,int16_t address,bool clk);
 };
+class PC{
+private:
+  reg out;
+public:
+  word run(word in,bool reset,bool load,bool inc,bool clk);
+};

@@ -3,6 +3,7 @@
 #include<tuple>
 #include"word.hpp"
 #include"gate.hpp"
+#include"adder.hpp"
 #include"sequential.hpp"
 bool dff::run(bool D,bool clk){
   bool tmp1=gate::_nand(D,clk);
@@ -84,4 +85,15 @@ word RAM16K::run(word in,bool load,int16_t address,bool clk){
     }
   out = gate::_mux8way16(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4],tmp[5],tmp[6],tmp[7],addr_blk);
   return out;
+}
+
+word PC::run(word in,bool reset,bool load,bool inc,bool clk){
+  word fake,zeros;
+  zeros.set_word(0);
+  word preout=out.run(fake,0,clk);
+  auto inc_data=adder::inc16(preout);
+  auto incf=gate::_mux16(preout,inc_data,inc);
+  auto loadf=gate::_mux16(incf,in,load);
+  auto resetf=gate::_mux16(loadf,zeros,reset);
+  return out.run(resetf,1,clk);
 }
