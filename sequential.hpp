@@ -30,3 +30,31 @@ private:
 public:
   word run(word in,bool load,int16_t address,bool clk);
 };
+class RAM64{
+private:
+  RAM8 ram[8];
+  word out;
+public:
+  word run(word in,bool load,int16_t address,bool clk);
+};
+class RAM512{
+private:
+  RAM64 ram[8];
+  word out;
+public:
+  word run(word in,bool load,int16_t address,bool clk);
+};
+class RAM4K{
+private:
+  RAM512 ram[8];
+  word out;
+public:
+  word run(word in,bool load,int16_t address,bool clk);
+};
+class RAM16K{
+private:
+  RAM4K ram[8];
+  word out;
+public:
+  word run(word in,bool load,int16_t address,bool clk);
+};

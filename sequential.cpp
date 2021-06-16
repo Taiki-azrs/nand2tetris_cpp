@@ -41,4 +41,47 @@ word RAM8::run(word in,bool load,int16_t address,bool clk){
   out = gate::_mux8way16(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4],tmp[5],tmp[6],tmp[7],address);
   return out;
 }
-
+word RAM64::run(word in,bool load,int16_t address,bool clk){
+  int16_t addr_blk=address>>3;
+  int16_t addr_mem=address&0b0111;
+  auto sel_mem=gate::_dmux8way(load,addr_blk);
+  word tmp[8];
+  for(int i=0;i<8;i++){
+    tmp[i]=ram[i].run(in,sel_mem[i],addr_mem,clk);
+    }
+  out = gate::_mux8way16(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4],tmp[5],tmp[6],tmp[7],addr_blk);
+  return out;
+}
+word RAM512::run(word in,bool load,int16_t address,bool clk){
+  int16_t addr_blk=address>>6;
+  int16_t addr_mem=address&0b0111111;
+  auto sel_mem=gate::_dmux8way(load,addr_blk);
+  word tmp[8];
+  for(int i=0;i<8;i++){
+    tmp[i]=ram[i].run(in,sel_mem[i],addr_mem,clk);
+    }
+  out = gate::_mux8way16(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4],tmp[5],tmp[6],tmp[7],addr_blk);
+  return out;
+}
+word RAM4K::run(word in,bool load,int16_t address,bool clk){
+  int16_t addr_blk=address>>9;
+  int16_t addr_mem=address&0b0111111111;
+  auto sel_mem=gate::_dmux8way(load,addr_blk);
+  word tmp[8];
+  for(int i=0;i<8;i++){
+    tmp[i]=ram[i].run(in,sel_mem[i],addr_mem,clk);
+    }
+  out = gate::_mux8way16(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4],tmp[5],tmp[6],tmp[7],addr_blk);
+  return out;
+}
+word RAM16K::run(word in,bool load,int16_t address,bool clk){
+  int16_t addr_blk=address>>12;
+  int16_t addr_mem=address&0b0111111111111;
+  auto sel_mem=gate::_dmux8way(load,addr_blk);
+  word tmp[8];
+  for(int i=0;i<8;i++){
+    tmp[i]=ram[i].run(in,sel_mem[i],addr_mem,clk);
+    }
+  out = gate::_mux8way16(tmp[0],tmp[1],tmp[2],tmp[3],tmp[4],tmp[5],tmp[6],tmp[7],addr_blk);
+  return out;
+}
