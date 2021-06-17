@@ -3,6 +3,7 @@ test_func(){
     ./$1
     if [ $? -eq 0 ] ; then
 	echo $1":OK"
+	exit 1
     else
 	echo $1":error"
     fi
